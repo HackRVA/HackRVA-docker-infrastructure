@@ -1,0 +1,45 @@
+version: '2'
+networks:
+  hackrva:
+    driver: bridge
+volumes:
+  certstore:
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - 80:80
+      - 443:43
+    networks:
+      hackrva:
+        aliases:
+          - gateway
+#   database:
+#     build:
+#       context: ./database
+#       args:
+#         MYSQL_ROOT_PASSWORD: root
+#     networks:
+#       hackrva:
+#         aliases:
+#           - database
+  games:
+    build: ./games
+    volumes:
+      - certstore:/var/certs
+    networks:
+      hackrva:
+        aliases:
+          - games
+  wiki:
+    build: ./wiki
+    networks:
+      hackrva:
+        aliases:
+          - wiki
+  chat:
+    build: ./chat
+    networks:
+      hackrva:
+        aliases:
+          - chat

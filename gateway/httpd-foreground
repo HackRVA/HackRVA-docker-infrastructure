@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -e
+
+# Apache gets grumpy about PID files pre-existing
+rm -f /usr/local/apache2/logs/http.pid
+
+mv /usr/local/apache2/conf/httpd.conf.pre /usr/local/apache2/conf/httpd.conf
+
+apachectl start
+
+certbot certonly \
+  --agree-tos \
+  --non-interactive \
+  --webroot \
+  -w "/usr/local/apache2/htdocs" \
+  -d "games.hackrva.org" \
+  -m "hackrva@gmail.com"
+
+apachectl stop
+
+mv /usr/local/apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf.pre
+mv /usr/local/apache2/conf/httpd.conf.post /usr/local/apache2/conf/httpd.conf
+
+# Update the 
+
+exec httpd -DFOREGROUND
+
