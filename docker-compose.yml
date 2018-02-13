@@ -14,32 +14,40 @@ services:
       hackrva:
         aliases:
           - gateway
-#   database:
-#     build:
-#       context: ./database
-#       args:
-#         MYSQL_ROOT_PASSWORD: root
-#     networks:
-#       hackrva:
-#         aliases:
-#           - database
+    volumes:
+      - ./gateway/sites:/usr/local/apache2/conf/sites
+      - certstore:/etc/letsencrypt/live
+  database:
+    build:
+      context: ./database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      hackrva:
+        aliases:
+          - database
+    volumes:
+      - ../mysql:/var/lib/mysql
+      - ./database/conf.d:/etc/mysql/conf.d
   games:
     build: ./games
-    volumes:
-      - certstore:/var/certs
     networks:
       hackrva:
         aliases:
           - games
   wiki:
     build: ./wiki
+    depends_on:
+      - database
     networks:
       hackrva:
         aliases:
           - wiki
-  chat:
-    build: ./chat
-    networks:
-      hackrva:
-        aliases:
-          - chat
+    volumes:
+      - ../mediawiki_images:/var/www/html/mediawiki_images
+#   chat:
+#     build: ./chat
+#     networks:
+#       hackrva:
+#         aliases:
+#           - chat

@@ -1,4 +1,9 @@
 # Start from a mediawiki base installation
-FROM mediawiki
-# TODO Grab the most recent wiki backup and load it
+FROM mediawiki:stable
+
+# Grab the local settings from the NAS
+COPY ./LocalSettings.php /var/www/html/LocalSettings.php
+
+# Load the wiki data from a volume
+VOLUME /var/www/html/images
 

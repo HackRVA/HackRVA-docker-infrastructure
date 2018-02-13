@@ -2,4 +2,8 @@
 FROM mariadb
 # Needs to expose port 3306 to other docker containers for connecting to mysql
 EXPOSE 3306
+# Mount mysql settings as a volume
+VOLUME /etc/mysql/conf.d
+# Use a volume for the database storage
+VOLUME /var/lib/mysql
 

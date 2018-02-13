@@ -5,24 +5,36 @@ set -e
 # Apache gets grumpy about PID files pre-existing
 rm -f /usr/local/apache2/logs/http.pid
 
-mv /usr/local/apache2/conf/httpd.conf.pre /usr/local/apache2/conf/httpd.conf
-
 apachectl start
 
+if [ ! -f /etc/letsencrypt/live/games.hackrva.org/fullchain.pem ]; then
+
+mv /usr/local/apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf.post
+mv /usr/local/apache2/conf/httpd.conf.pre /usr/local/apache2/conf/httpd.conf
+
+# Only run certbot if certs don't already exist
+# Keep as a dry-run to prevent hitting rate limitting
 certbot certonly \
   --agree-tos \
+  --dry-run \
   --non-interactive \
   --webroot \
   -w "/usr/local/apache2/htdocs" \
   -d "games.hackrva.org" \
+  -d "hackrva.dynalias.org" \
   -m "hackrva@gmail.com"
-
-apachectl stop
 
 mv /usr/local/apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf.pre
 mv /usr/local/apache2/conf/httpd.conf.post /usr/local/apache2/conf/httpd.conf
 
-# Update the 
+else
+
+echo "Found existing certs, skipping Let's Encrypt"
+certbot --dry-run renew
+
+fi
+
+apachectl stop
 
 exec httpd -DFOREGROUND
 
