@@ -35,6 +35,9 @@ services:
       hackrva:
         aliases:
           - games
+    volumes:
+      - ./games/img:/usr/local/apache2/htdocs/img
+      - ./games/css:/usr/local/apache2/htdocs/css
   wiki:
     build: ./wiki
     depends_on:
