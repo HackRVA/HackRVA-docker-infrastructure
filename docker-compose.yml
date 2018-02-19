@@ -27,7 +27,7 @@ services:
         aliases:
           - database
     volumes:
-      - ../mysql:/var/lib/mysql
+      - ./persist/mysql:/var/lib/mysql
       - ./database/conf.d:/etc/mysql/conf.d
   games:
     build: ./games
@@ -47,7 +47,7 @@ services:
         aliases:
           - wiki
     volumes:
-      - ../images:/var/www/html/images
+      - ./persist/images:/var/www/html/images
 #   chat:
 #     build: ./chat
 #     networks:
