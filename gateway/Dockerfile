@@ -6,8 +6,7 @@ RUN apk update && apk add \
   certbot
 
 # This docker image functions to route incoming http connections to the proper container internally
-COPY ./httpd.conf.pre /usr/local/apache2/conf/httpd.conf.pre
-COPY ./httpd.conf.post /usr/local/apache2/conf/httpd.conf
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 # Expose sites based on a mounted volume
 VOLUME /usr/local/apache2/conf/sites
 
@@ -19,5 +18,5 @@ COPY ./certbot-renew.sh /etc/periodic/daily/certbot-renew.sh
 # Need to use our own modified httpd-foreground script to update certs
 COPY ./httpd-foreground /usr/local/bin/httpd-foreground
 
-VOLUME /etc/letsencrypt/live
+VOLUME /etc/letsencrypt
 

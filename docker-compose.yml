@@ -9,14 +9,14 @@ services:
     build: ./gateway
     ports:
       - 80:80
-      - 443:43
+      - 443:443
     networks:
       hackrva:
         aliases:
           - gateway
     volumes:
       - ./gateway/sites:/usr/local/apache2/conf/sites
-      - certstore:/etc/letsencrypt/live
+      - certstore:/etc/letsencrypt
   database:
     build:
       context: ./database
@@ -47,7 +47,7 @@ services:
         aliases:
           - wiki
     volumes:
-      - ../mediawiki_images:/var/www/html/mediawiki_images
+      - ../images:/var/www/html/images
 #   chat:
 #     build: ./chat
 #     networks:

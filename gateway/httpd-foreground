@@ -1,40 +1,49 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+
+# Hit rate limit for games.hackrva.org
+
+function update_certs() {
+
+domains=( \
+	"chat.hackrva.org" \
+	"games.hackrva.org" \
+	"hackrva.dynalias.org" \
+	"wiki.hackrva.org" \
+	)
+
+# Don't run this too often or it will easily hit the rate limit
+for domain in "${domains[@]}"
+do
+
+# Only run certbot newly if certs don't already exist
+if [ ! -f /etc/letsencrypt/live/$domain/fullchain.pem ]; then
+
+echo "Getting new cert"
+
+certbot certonly \
+  --agree-tos \
+  --non-interactive \
+  --webroot \
+  -w "/usr/local/apache2/htdocs" \
+  -d "$domain" \
+  -m "hackrva@gmail.com"
+
+fi
+
+done
+
+echo "Try renewing on Let's Encrypt"
+/etc/periodic/daily/certbot-renew.sh
+
+}
 
 # Apache gets grumpy about PID files pre-existing
 rm -f /usr/local/apache2/logs/http.pid
 
-apachectl start
+update_certs & 
 
-if [ ! -f /etc/letsencrypt/live/games.hackrva.org/fullchain.pem ]; then
-
-mv /usr/local/apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf.post
-mv /usr/local/apache2/conf/httpd.conf.pre /usr/local/apache2/conf/httpd.conf
-
-# Only run certbot if certs don't already exist
-# Keep as a dry-run to prevent hitting rate limitting
-certbot certonly \
-  --agree-tos \
-  --dry-run \
-  --non-interactive \
-  --webroot \
-  -w "/usr/local/apache2/htdocs" \
-  -d "games.hackrva.org" \
-  -d "hackrva.dynalias.org" \
-  -m "hackrva@gmail.com"
-
-mv /usr/local/apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf.pre
-mv /usr/local/apache2/conf/httpd.conf.post /usr/local/apache2/conf/httpd.conf
-
-else
-
-echo "Found existing certs, skipping Let's Encrypt"
-certbot --dry-run renew
-
-fi
-
-apachectl stop
-
+# Start Apache for real
 exec httpd -DFOREGROUND
 

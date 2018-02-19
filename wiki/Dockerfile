@@ -4,6 +4,6 @@ FROM mediawiki:stable
 # Grab the local settings from the NAS
 COPY ./LocalSettings.php /var/www/html/LocalSettings.php
 
-# Load the wiki data from a volume
+# Load the wiki images from a volume
 VOLUME /var/www/html/images
 
