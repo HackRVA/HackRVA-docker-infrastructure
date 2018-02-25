@@ -6,4 +6,6 @@ EXPOSE 3306
 VOLUME /etc/mysql/conf.d
 # Use a volume for the database storage
 VOLUME /var/lib/mysql
+# Mount scripts for creating a new database user
+VOLUME /docker-entrypoint-initdb.d
 

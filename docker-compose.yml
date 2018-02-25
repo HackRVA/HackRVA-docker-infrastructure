@@ -21,7 +21,7 @@ services:
     build:
       context: ./database
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     networks:
       hackrva:
         aliases:
@@ -29,6 +29,7 @@ services:
     volumes:
       - ./persist/mysql:/var/lib/mysql
       - ./database/conf.d:/etc/mysql/conf.d
+      - ./database/init:/docker-entrypoint-initdb.d
   games:
     build: ./games
     networks:

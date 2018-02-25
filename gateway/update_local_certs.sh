@@ -11,12 +11,22 @@ function generate_local_certs() {
   organization="HackRVA"
   organization_unit="NetworkRATs"
 
-  ca_dir="/etc/snake"
+  le_dir="/etc/letsencrypt"
+  ca_dir="$le_dir/ca"
   ca_key_path="$pkey_dir/snake.key"
   ca_cert_path="$pkey_dir/snake.pem"
-  le_dir="/etc/letsencrypt"
-  le_live_dir="/etc/letsencrypt/live"
+  le_live_dir="$le_dir/live"
   htdocs_path="/usr/local/apache2/htdocs"
+
+  # Ensure the letsencrypt directory exists
+  if [ ! -d "$le_dir" ]; then
+    mkdir "$le_dir"
+    # Mark us as using local certs
+    echo "local" > "$le_dir/have_certs"
+    # Mark us as needing local certs
+    echo "local" > "$le_dir/need_certs"
+  fi
+
 
   echo "Making own certificate authority"
   if [ ! -d $ca_dir ]; then
@@ -70,15 +80,6 @@ function generate_local_certs() {
   # Provide a file for retrieving the hosts and the 
   echo "Creating index page for accessing hosts and cert at localhost/.well-known/index.html"
   cp "/etc/wellknown_index.html" "$wellknown_path/index.html"
-
-  # Ensure the letsencrypt directory exists
-  if [ ! -d "$le_dir" ]; then
-    mkdir "$le_dir"
-    # Mark us as using local certs
-    echo "local" > "$le_dir/have_certs"
-    # Mark us as needing local certs
-    echo "local" > "$le_dir/need_certs"
-  fi
 
   # Ensure the letsencrypt live directory exists
   if [ ! -d "$le_live_dir" ]; then
