@@ -27,9 +27,11 @@ if [ ! -d $initdb_dir ]; then
   mkdir "$initdb_dir"
 fi
 
-add_user_path="$initdb_dir/add_mw_user.sql"
-echo "CREATE DATABASE \`$mw_db\`;" > "$add_user_path"
+init_path="$initdb_dir/1.init.sql"
+add_user_path="$initdb_dir/2.add_mw_user.sql"
+# echo "CREATE DATABASE \`$mw_db\`;" > "$add_user_path"
 echo "GRANT ALL PRIVILEGES ON \`$mw_db\`.* TO '$mw_user'@'%' IDENTIFIED BY '$mw_pw';" >> "$add_user_path"
+cp "test/wiki/init.sql" "$init_path"
 
 # Prepare the repository for building
 # Copy the LocalSettings.php file for the wiki

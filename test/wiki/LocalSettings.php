@@ -66,12 +66,12 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 $wgDBmysql5 = false;
 
 ## Shared memory settings
-$wgMainCacheType = CACHE_ACCEL;
+$wgMainCacheType = CACHE_NONE;
 $wgMemCachedServers = [];
 
 ## To enable image uploads, make sure the 'images' directory
 ## is writable, then set this to true:
-$wgEnableUploads = true;
+$wgEnableUploads = false;
 $wgUseImageMagick = true;
 $wgImageMagickConvertCommand = "/usr/bin/convert";
 
@@ -81,7 +81,7 @@ $wgUseInstantCommons = false;
 # Periodically send a pingback to https://www.mediawiki.org/ with basic data
 # about this MediaWiki instance. The Wikimedia Foundation shares this data
 # with MediaWiki developers to help guide future development efforts.
-$wgPingback = false;
+$wgPingback = true;
 
 ## If you use ImageMagick (or any other shell command) on a
 ## Linux server, this will need to be set to the name of an
@@ -96,22 +96,22 @@ $wgShellLocale = "C.UTF-8";
 # Site language code, should be one of the list in ./languages/data/Names.php
 $wgLanguageCode = "en";
 
-$wgSecretKey = "eb96a913959de75dbb71de452de0b58ef80f2bf9965a25b281b337d526583889";
+$wgSecretKey = "c430689f2db22d37383b6a01296bed3980e7ce3e966b4e6ba326abaf7d5c2736";
 
 # Changing this will log out all existing sessions.
 $wgAuthenticationTokenVersion = "1";
 
 # Site upgrade key. Must be set to a string (default provided) to turn on the
 # web installer while LocalSettings.php is in place
-$wgUpgradeKey = "72fef02e9e154bbb";
+$wgUpgradeKey = "69e5bd3cadd3345c";
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
 ## License and Creative Commons licenses are supported so far.
 $wgRightsPage = ""; # Set to the title of a wiki page that describes your license/copyright
-$wgRightsUrl = "https://creativecommons.org/licenses/by/4.0/";
-$wgRightsText = "Creative Commons Attribution";
-$wgRightsIcon = "$wgResourceBasePath/resources/assets/licenses/cc-by.png";
+$wgRightsUrl = "";
+$wgRightsText = "";
+$wgRightsIcon = "";
 
 # Path to the GNU diff3 utility. Used for conflict resolution.
 $wgDiff3 = "/usr/bin/diff3";
