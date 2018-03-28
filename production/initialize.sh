@@ -15,7 +15,7 @@ if [ ! -d ./persist/images ]; then
   mkdir persist/images
 fi
 #give docker permission to write to persist
-chmod 777 persist/images
+chown -R www-data:www-data persist/images
 
 # Indicate that we should use certbot
 echo "true" > gateway/use_certbot
