@@ -21,3 +21,4 @@ the host file and CA cert for the local servers. On most linuces the host file
 can be appended to your existing host file at `/etc/hosts`. Installation of the
 cert varies significantly based upon your OS and your browser.
 
+## Changelog
