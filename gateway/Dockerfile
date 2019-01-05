@@ -1,7 +1,7 @@
 # Uses alpine as the default uses debian distribution too old to use certbot
 FROM httpd:alpine AS hackrva-gateway
 
-RUN apk update && apk add
+RUN apk update
 
 # This docker image functions to route incoming http connections to the proper container internally
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
