@@ -167,3 +167,8 @@ foreach ( $arr as $key => $value ) {
 
 #Group Permissions
 $wgGroupPermissions['*']['edit'] = false;$wgJobRunRate = 0.01;
+
+
+## Setting Max Upload Size
+$wgMaxUploadSize = 40000000;
+
