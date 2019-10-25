@@ -5,6 +5,12 @@ networks:
 volumes:
   certstore:
 services:
+  backup:
+    build:
+      context: ./backup
+    volumes:
+      - ./persist/mysql:/var/lib/mysql
+      - /mnt/NAS/HRVAbackups/wiki/:/backup/NAS/wiki
   gateway:
     build: ./gateway
     ports:
