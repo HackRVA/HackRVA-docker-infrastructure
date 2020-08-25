@@ -1,5 +1,5 @@
 # Keeping the database a separate container allows database backing up to be done in one place
-FROM mariadb
+FROM mariadb:10.2
 # Needs to expose port 3306 to other docker containers for connecting to mysql
 EXPOSE 3306
 # Mount mysql settings as a volume
