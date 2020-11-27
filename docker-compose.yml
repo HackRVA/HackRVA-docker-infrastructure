@@ -11,6 +11,7 @@ services:
     volumes:
       - ./persist/mysql:/var/lib/mysql
       - /mnt/NAS/HRVAbackups/wiki/:/backup/NAS/wiki
+      - ./persist/images:/var/www/html/images
   gateway:
     build: ./gateway
     ports:
