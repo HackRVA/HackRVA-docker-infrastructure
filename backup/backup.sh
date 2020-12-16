@@ -12,4 +12,4 @@ tar -zcvf ${filename}"_images" /var/www/html/images
 # backup database to NAS!
 cp ${filename} /backup/NAS/wiki/
 # backup images to NAS!
-cp ${filename}"_iamges" /backup/NAS/wiki/
+cp ${filename}"_images" /backup/NAS/wiki/
