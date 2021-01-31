@@ -1,15 +1,18 @@
 #!/bin/bash
 
 # add timestamp as filename
-basefilename=mysql_backup
+basefilename=_backup
 filename=${basefilename}_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
 
+mysql_backup_filename="mysql"${filename}
+images_backup_filename="images"${filename}
+
 # tar up the db files
-tar -zcvf ${filename} /var/lib/mysql/
+tar -zcvf ${mysql_backup_filename} /var/lib/mysql/
 # tar up the images dir
-tar -zcvf ${filename}"_images" /var/www/html/images
+tar -zcvf ${images_backup_filename} /var/www/html/images
 
 # backup database to NAS!
-cp ${filename} /backup/NAS/wiki/
+cp ${mysql_backup_filename} /backup/NAS/wiki/
 # backup images to NAS!
-cp ${filename}"_images" /backup/NAS/wiki/
+cp ${images_backup_filename} /backup/NAS/wiki/
