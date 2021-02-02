@@ -56,6 +56,10 @@ services:
           - wiki
     volumes:
       - ./persist/images:/var/www/html/images
+  um3wooter:
+    build: um3-wooter
+    env_file:
+      ./um3-wooter/.env
 #   chat:
 #     build: ./chat
 #     networks:

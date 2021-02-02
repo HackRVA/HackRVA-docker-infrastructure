@@ -1,0 +1,6 @@
+version: '3.3'
+services:
+  um3wooter:
+    build: .
+    env_file:
+      .env
