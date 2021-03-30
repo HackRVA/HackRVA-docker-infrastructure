@@ -60,6 +60,15 @@ services:
     build: um3-wooter
     env_file:
       ./um3-wooter/.env
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:1.6.10
+    volumes:
+      - ./mqtt/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - '8883:8883'
+      - '1883:1883'
+    restart: unless-stopped
 #   chat:
 #     build: ./chat
 #     networks:
