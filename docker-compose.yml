@@ -26,10 +26,8 @@ services:
       - certstore:/etc/letsencrypt
   memberserver:
     image: hackrva/memberserver:latest
-    environment:
-        - MEMBER_SERVER_CONFIG_FILE=/etc/hackrva/config.json
-    volumes:
-        - /etc/hackrva/config.json:/etc/hackrva/config.json
+    env_file:
+      - ./memberserver.env
     networks:
       hackrva:
         aliases:
