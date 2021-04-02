@@ -26,8 +26,6 @@ services:
       - certstore:/etc/letsencrypt
   memberserver:
     image: hackrva/memberserver:latest
-    ports:
-      - 80:3000
     environment:
         - MEMBER_SERVER_CONFIG_FILE=/etc/hackrva/config.json
     volumes:
