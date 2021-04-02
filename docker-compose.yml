@@ -32,6 +32,10 @@ services:
         - MEMBER_SERVER_CONFIG_FILE=/etc/hackrva/config.json
     volumes:
         - /etc/hackrva/config.json:/etc/hackrva/config.json
+    networks:
+      hackrva:
+        aliases:
+          - memberserver
   database:
     build:
       context: ./database
@@ -77,6 +81,10 @@ services:
       - '8883:8883'
       - '1883:1883'
     restart: unless-stopped
+    networks:
+      hackrva:
+        aliases:
+          - mosquitto
 #   chat:
 #     build: ./chat
 #     networks:
