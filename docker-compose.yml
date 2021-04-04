@@ -32,6 +32,8 @@ services:
       hackrva:
         aliases:
           - memberserver
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   database:
     build:
       context: ./database
@@ -81,6 +83,15 @@ services:
       hackrva:
         aliases:
           - mosquitto
+  watchtower:
+    command: --label-enable --cleanup --interval 300
+    image: containrrr/watchtower
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    network_mode: none
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 #   chat:
 #     build: ./chat
 #     networks:
