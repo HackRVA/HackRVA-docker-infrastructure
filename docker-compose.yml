@@ -8,6 +8,7 @@ services:
   backup:
     build:
       context: ./backup
+    restart: unless-stopped
     volumes:
       - ./persist/mysql:/var/lib/mysql
       - /mnt/NAS/HRVAbackups/wiki/:/backup/NAS/wiki
@@ -17,6 +18,7 @@ services:
     ports:
       - 80:80
       - 443:443
+    restart: unless-stopped
     networks:
       hackrva:
         aliases:
@@ -28,10 +30,20 @@ services:
     image: hackrva/memberserver:latest
     env_file:
       - ./memberserver.env
+    restart: unless-stopped
     networks:
       hackrva:
         aliases:
           - memberserver
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  hackpoints:
+    image: hackrva/hackpoints:latest
+    restart: unless-stopped
+    networks:
+      hackrva:
+        aliases:
+          - hackpoints
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
   database:
@@ -39,6 +51,7 @@ services:
       context: ./database
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    restart: unless-stopped
     networks:
       hackrva:
         aliases:
@@ -49,6 +62,7 @@ services:
       - ./database/init:/docker-entrypoint-initdb.d
   games:
     build: ./games
+    restart: unless-stopped
     networks:
       hackrva:
         aliases:
@@ -60,6 +74,7 @@ services:
     build: ./wiki
     depends_on:
       - database
+    restart: unless-stopped
     networks:
       hackrva:
         aliases:
@@ -84,7 +99,7 @@ services:
         aliases:
           - mosquitto
   watchtower:
-    command: --label-enable --cleanup --interval 300
+    command: --label-enable --cleanup
     image: containrrr/watchtower
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
