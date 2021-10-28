@@ -26,6 +26,15 @@ services:
     volumes:
       - ./gateway/sites:/usr/local/apache2/conf/sites
       - certstore:/etc/letsencrypt
+  um3reverseproxy:
+    build: ./um3-reverse-proxy
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    networks:
+      hackrva:
+        aliases:
+          - um3reverseproxy
   memberserver:
     image: hackrva/memberserver:latest
     env_file:
