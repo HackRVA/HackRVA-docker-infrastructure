@@ -22,7 +22,7 @@ services:
       - "traefik.http.routers.api.entrypoints=web"
       - "traefik.http.routers.live.rule=Host(`live.hackrva.org`)"
       - "traefik.http.routers.live.entrypoints=web"
-      - "traefik.http.services.live.loadbalancer.server.url=https://10.200.200.42:81/"
+      - "traefik.http.services.live.loadbalancer.server.url=http://10.200.200.42:81/"
 
   backup:
     build:
@@ -36,6 +36,9 @@ services:
       - ./persist/mysql:/var/lib/mysql
       - /mnt/NAS/HRVAbackups/wiki/:/backup/NAS/wiki
       - ./persist/images/:/var/www/html/images
+    labels:
+      - "traefik.enabled=false"
+
 
   memberserver:
     image: hackrva/memberserver:latest
@@ -92,3 +95,5 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    labels:
+      - "traefik.enabled=false"
