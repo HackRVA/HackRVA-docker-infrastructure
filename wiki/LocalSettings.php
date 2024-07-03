@@ -50,21 +50,11 @@ $wgLogo             = "images/thumb/c/c9/Logo.png/105px-Logo.png";
 
 ## UPO means: this is also a user preference option
 
-$wgEnableEmail = true;
-$wgEnableUserEmail = true; # UPO
-$wgSMTP = array(
-    'host'     => getenv('MEDIAWIKI_SMTP_HOST'), // could also be an IP address. Where the SMTP server is located
-    'IDHost'   => getenv('MEDIAWIKI_SMTP_IDHOST'), // Generally this will be the domain name of your website (aka mywiki.org)
-    'port'     => getenv('MEDIAWIKI_SMTP_PORT'), // Port to use when connecting to the SMTP server
-    'auth'     => true,                    // Should we use SMTP authentication (true or false)
-    'username' => getenv('MEDIAWIKI_SMTP_USER'),  // Username to use for SMTP authentication (if being used)
-    'password' => getenv('MEDIAWIKI_SMTP_PASSWORD') // Password to use for SMTP authentication (if being used)
-);
+$wgEnableEmail = false;
 
 // Additional email settings
-$wgPasswordSender = "wiki-noreply@example.com"; // Set a default sender email address
+$wgPasswordSender = "wiki-noreply@hackrva.org"; // Set a default sender email address
 $wgPasswordSenderName = "My Wiki";              // Set a default sender name
-$wgEnableEmail = true;                          // Enable email sending
 $wgEnableUserEmail = true;                      // Allow users to send email through the wiki
 
 
@@ -76,11 +66,13 @@ $wgEnotifWatchlist = false; # UPO
 $wgEmailAuthentication = true;
 
 ## Database settings
-$wgDBtype = "mysql";
+$wgDBtype = getenv('MEDIAWIKI_DB_TYPE');
 $wgDBserver = getenv('MEDIAWIKI_DB_SERVER');
 $wgDBname = getenv('MEDIAWIKI_DB_NAME');
 $wgDBuser = getenv('MEDIAWIKI_DB_USER');
 $wgDBpassword = getenv('MEDIAWIKI_DB_PASSWORD'); 
+// $wgDBmwschema = 'public';
+// $wgDBssl = true;
 
 # MySQL specific settings
 $wgDBprefix = "mw_";

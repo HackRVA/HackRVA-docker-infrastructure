@@ -1,4 +1,6 @@
 .*.swp
 persist/
 
+mediawiki.env
+db.env
 memberserver.env

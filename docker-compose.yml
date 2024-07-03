@@ -1,99 +1,81 @@
-version: '2'
 networks:
   hackrva:
-    driver: bridge
-volumes:
-  certstore:
+
 services:
+  traefik:
+    image: traefik:v2.5
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - hackrva
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.entrypoints=web"
+      - "traefik.http.routers.live.rule=Host(`home.hackrva.org`)"
+      - "traefik.http.routers.live.entrypoints=web"
+      - "traefik.http.services.live.loadbalancer.server.url=https://live.hackrva.org"
+
   backup:
     build:
       context: ./backup
     restart: unless-stopped
+    env_file:
+      - ./db.env
+    networks:
+      - hackrva
     volumes:
       - ./persist/mysql:/var/lib/mysql
       - /mnt/NAS/HRVAbackups/wiki/:/backup/NAS/wiki
-      - ./persist/images:/var/www/html/images
-  gateway:
-    build: ./gateway
-    ports:
-      - 80:80
-      - 443:443
-    restart: unless-stopped
-    networks:
-      hackrva:
-        aliases:
-          - gateway
-    volumes:
-      - ./gateway/sites:/usr/local/apache2/conf/sites
-      - certstore:/etc/letsencrypt
-  um3reverseproxy:
-    build: ./um3-reverse-proxy
-    ports:
-      - 8080:8080
-    restart: unless-stopped
-    networks:
-      hackrva:
-        aliases:
-          - um3reverseproxy
+      - ./persist/images/:/var/www/html/images
+
   memberserver:
     image: hackrva/memberserver:latest
     env_file:
       - ./memberserver.env
     restart: unless-stopped
     networks:
-      hackrva:
-        aliases:
-          - memberserver
+      - hackrva
     labels:
+      - "traefik.http.routers.memberserver.rule=Host(`members.hackrva.org`)"
+      - "traefik.http.routers.memberserver.entrypoints=web"
+      - "traefik.http.services.memberserver.loadbalancer.server.port=3000"
       - "com.centurylinklabs.watchtower.enable=true"
-  hackpoints:
-    image: hackrva/hackpoints:latest
-    restart: unless-stopped
-    networks:
-      hackrva:
-        aliases:
-          - hackpoints
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+
   database:
-    build:
-      context: ./database
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    image: mariadb:10.3
+    env_file:
+      - ./db.env
     restart: unless-stopped
     networks:
-      hackrva:
-        aliases:
-          - database
+      - hackrva
     volumes:
       - ./persist/mysql:/var/lib/mysql
-      - ./database/conf.d:/etc/mysql/conf.d
-      - ./database/init:/docker-entrypoint-initdb.d
-  games:
-    build: ./games
-    restart: unless-stopped
-    networks:
-      hackrva:
-        aliases:
-          - games
-    volumes:
-      - ./games/img:/usr/local/apache2/htdocs/img
-      - ./games/css:/usr/local/apache2/htdocs/css
+
   wiki:
-    build: ./wiki
-    depends_on:
-      - database
+    image: mediawiki:stable
+    env_file:
+      - ./mediawiki.env
     restart: unless-stopped
     networks:
-      hackrva:
-        aliases:
-          - wiki
+      - hackrva
     volumes:
+      - ./wiki/uploads.ini/:/usr/local/etc/php/conf.d/uploads.ini
+      - ./wiki/LocalSettings.php:/var/www/html/LocalSettings.php
       - ./persist/images:/var/www/html/images
-  um3wooter:
-    build: um3-wooter
-    env_file:
-      ./um3-wooter/.env
+    labels:
+      - "traefik.http.routers.wiki.rule=Host(`wiki.hackrva.org`)"
+      - "traefik.http.routers.wiki.entrypoints=web"
+      - "traefik.http.services.wiki.loadbalancer.server.port=80"
+
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto:1.6.10
@@ -104,21 +86,9 @@ services:
       - '1883:1883'
     restart: unless-stopped
     networks:
-      hackrva:
-        aliases:
-          - mosquitto
-  watchtower:
-    command: --label-enable --cleanup
-    image: containrrr/watchtower
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-    network_mode: none
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-#   chat:
-#     build: ./chat
-#     networks:
-#       hackrva:
-#         aliases:
-#           - chat
+      - hackrva
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-h", "localhost", "-t", "test", "-C", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
