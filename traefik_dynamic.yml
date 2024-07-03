@@ -1,0 +1,14 @@
+http:
+  routers:
+    live:
+      rule: "Host(`live.hackrva.org`)"
+      entryPoints:
+        - web
+      service: live
+
+  services:
+    live:
+      loadBalancer:
+        servers:
+          - url: "http://10.200.200.100:81"
+

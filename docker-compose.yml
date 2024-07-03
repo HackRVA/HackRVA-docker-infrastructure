@@ -7,12 +7,14 @@ services:
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
+      - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
       - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
     networks:
       - hackrva
     labels:
@@ -20,9 +22,6 @@ services:
       - "traefik.http.routers.api.rule=Host(`traefik.localhost`)"
       - "traefik.http.routers.api.service=api@internal"
       - "traefik.http.routers.api.entrypoints=web"
-      - "traefik.http.routers.live.rule=Host(`live.hackrva.org`)"
-      - "traefik.http.routers.live.entrypoints=web"
-      - "traefik.http.services.live.loadbalancer.server.url=http://10.200.200.42:81/"
 
   backup:
     build:
@@ -38,7 +37,6 @@ services:
       - ./persist/images/:/var/www/html/images
     labels:
       - "traefik.enabled=false"
-
 
   memberserver:
     image: hackrva/memberserver:latest
@@ -99,3 +97,4 @@ services:
       retries: 5
     labels:
       - "traefik.enabled=false"
+
