@@ -62,6 +62,8 @@ services:
       - hackrva
     volumes:
       - ./persist/mysql:/var/lib/mysql
+    labels:
+      - "traefik.enabled=false"
 
   wiki:
     image: mediawiki:stable
