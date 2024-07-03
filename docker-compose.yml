@@ -20,9 +20,9 @@ services:
       - "traefik.http.routers.api.rule=Host(`traefik.localhost`)"
       - "traefik.http.routers.api.service=api@internal"
       - "traefik.http.routers.api.entrypoints=web"
-      - "traefik.http.routers.live.rule=Host(`home.hackrva.org`)"
+      - "traefik.http.routers.live.rule=Host(`live.hackrva.org`)"
       - "traefik.http.routers.live.entrypoints=web"
-      - "traefik.http.services.live.loadbalancer.server.url=https://live.hackrva.org"
+      - "traefik.http.services.live.loadbalancer.server.url=https://10.200.200.42:81/"
 
   backup:
     build:
