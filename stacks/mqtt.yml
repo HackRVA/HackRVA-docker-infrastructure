@@ -1,0 +1,23 @@
+networks:
+  hackrva:
+
+services:
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:1.6.10
+    volumes:
+      - ../mqtt/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 8883:8883
+      - 1883:1883
+    restart: unless-stopped
+    networks:
+      - hackrva
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-h", "localhost", "-t", "test", "-C", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - "traefik.enabled=false"
+

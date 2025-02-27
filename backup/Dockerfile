@@ -9,6 +9,7 @@ WORKDIR /backup
 
 # Add the backup script to the container
 ADD backup.sh .
+ADD restore.sh .
 
 # Update package lists and install necessary packages
 RUN apt-get update && \

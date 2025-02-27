@@ -1,0 +1,22 @@
+networks:
+  hackrva:
+
+services:
+  wiki:
+    image: mediawiki:stable
+    ports:
+      - 9992:80
+    env_file:
+      - ../mediawiki.env
+    restart: unless-stopped
+    networks:
+      - hackrva
+    volumes:
+      - ../wiki/uploads.ini/:/usr/local/etc/php/conf.d/uploads.ini
+      - ../wiki/LocalSettings.php:/var/www/html/LocalSettings.php
+      - $PERSIST_DIR/images:/var/www/html/images
+    labels:
+      - "traefik.http.routers.wiki.rule=Host(`wiki.hackrva.org`)"
+      - "traefik.http.routers.wiki.entrypoints=web"
+      - "traefik.http.services.wiki.loadbalancer.server.port=80"
+

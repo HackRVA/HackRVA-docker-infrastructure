@@ -46,7 +46,7 @@ $wgStylePath = "$wgScriptPath/skins";
 ## The relative URL path to the logo.  Make sure you change this from the default,
 ## or else you'll overwrite your logo when you upgrade!
 #$wgLogo	     = "images/b/bc/Wiki.png
-$wgLogo             = "images/thumb/c/c9/Logo.png/105px-Logo.png";
+$wgLogo = "images/6/6e/WikiLogo2025.png";
 
 ## UPO means: this is also a user preference option
 
@@ -168,3 +168,4 @@ $wgMaxUploadSize = 40000000;
 $wgAllowExternalImages = true;
 
 wfLoadSkin("Timeless");
+

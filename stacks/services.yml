@@ -1,0 +1,20 @@
+networks:
+  hackrva:
+
+services:
+  backup:
+    build:
+      context: ../backup
+    restart: unless-stopped
+    env_file:
+      - ../db.env
+    networks:
+      - hackrva
+    volumes:
+      - $PERSIST_DIR/mysql:/var/lib/mysql
+      - $BACKUP_DIR/wiki/:/backup/NAS/wiki
+      - $PERSIST_DIR/images/:/var/www/html/images
+      - /home/dfire/backups:/backup/backups
+    labels:
+      - "traefik.enabled=false"
+

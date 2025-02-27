@@ -1,0 +1,21 @@
+networks:
+  hackrva:
+
+services:
+  hackmap:
+    image: hackrva/hackmap
+    restart: unless-stopped
+    ports:
+      - 9995:8080
+    networks:
+      - hackrva
+    env_file:
+      - ../hackmap.env
+    volumes:
+      - $PERSIST_DIR/item_store:/store
+    labels:
+      - "traefik.http.routers.hackmap.rule=Host(`map.hackrva.org`)"
+      - "traefik.http.routers.hackmap.entrypoints=web"
+      - "traefik.http.services.hackmap.loadbalancer.server.port=8080"
+      - "com.centurylinklabs.watchtower.enable=true"
+

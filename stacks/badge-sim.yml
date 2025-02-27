@@ -1,0 +1,18 @@
+networks:
+  hackrva:
+
+services:
+  badge-sim:
+    image: hackrva/badgesim2024
+    ports:
+      - 9996:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - hackrva
+    labels:
+      - "traefik.http.routers.badge-sim.rule=Host(`badgesim2024.hackrva.org`)"
+      - "traefik.http.routers.badge-sim.entrypoints=web"
+      - "traefik.http.services.badge-sim.loadbalancer.server.port=8080"
+      - "com.centurylinklabs.watchtower.enable=true"
+

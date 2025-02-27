@@ -5,6 +5,13 @@ non-vital infrastructure quickly when necessary
 
 ## Run
 
+stand up all containers
 ```bash
-docker compose up
+make
 ```
+
+stop all containers
+```bash
+make stop
+```
+

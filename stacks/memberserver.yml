@@ -1,0 +1,19 @@
+networks:
+  hackrva:
+
+services:
+  memberserver:
+    image: hackrva/memberserver:latest
+    ports:
+      - 9994:3000
+    env_file:
+      - ../memberserver.env
+    restart: unless-stopped
+    networks:
+      - hackrva
+    labels:
+      - "traefik.http.routers.memberserver.rule=Host(`members.hackrva.org`)"
+      - "traefik.http.routers.memberserver.entrypoints=web"
+      - "traefik.http.services.memberserver.loadbalancer.server.port=3000"
+      - "com.centurylinklabs.watchtower.enable=true"
+

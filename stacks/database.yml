@@ -1,0 +1,16 @@
+networks:
+  hackrva:
+
+services:
+  database:
+    image: mariadb:10.3
+    env_file:
+      - ../db.env
+    restart: unless-stopped
+    networks:
+      - hackrva
+    volumes:
+      - $PERSIST_DIR/mysql:/var/lib/mysql
+    labels:
+      - "traefik.enabled=false"
+
