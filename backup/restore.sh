@@ -24,9 +24,6 @@ if [ ! -f "$IMAGES_BACKUP_FILE" ]; then
     exit 1
 fi
 
-echo "Stopping MySQL container ($CONTAINER_NAME)..."
-docker stop "$CONTAINER_NAME"
-
 echo "Restoring MySQL data..."
 tar -xzvf "$MYSQL_BACKUP_FILE"
 

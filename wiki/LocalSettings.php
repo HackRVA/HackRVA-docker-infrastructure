@@ -167,5 +167,5 @@ $wgMaxUploadSize = 40000000;
 
 $wgAllowExternalImages = true;
 
-wfLoadSkin("Timeless");
+/*wfLoadSkin("Timeless");*/
 

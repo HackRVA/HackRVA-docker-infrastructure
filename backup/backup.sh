@@ -8,7 +8,6 @@ mysql_backup_filename=mysql${basefilename}_$(date +%Y-%m-%d_%H-%M-%S).sql
 images_backup_filename="images"${filename}
 
 # tar up the db files
-mysqldump --default-character-set=binary -h database -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE > ${mysql_backup_filename}
 mysqldump --default-character-set=binary -h database -u "$MYSQL_USER" --password="$MYSQL_PASSWORD" "$MYSQL_DATABASE" > "$mysql_backup_filename"
 tar -zcvf ${mysql_backup_filename}.tar.gz ${mysql_backup_filename}
 
