@@ -150,6 +150,8 @@ date_default_timezone_set( $wgLocaltimezone );
 #Enable Captcha
 wfLoadExtensions([ 'ConfirmEdit', 'ConfirmEdit/QuestyCaptcha' ]);
 
+wfLoadExtension( 'VisualEditor' );
+
 $wgCaptchaClass = 'QuestyCaptcha';
 $arr = array (
 	'ask for the secret phrase' => getenv('MEDIAWIKI_NEW_USER_SECRET'),
