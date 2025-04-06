@@ -16,3 +16,17 @@ services:
       - "traefik.http.services.badge-sim.loadbalancer.server.port=8080"
       - "com.centurylinklabs.watchtower.enable=true"
 
+  badge-sim-2025:
+    image: hackrva/badge2025-user-docs
+    ports:
+      - 9991:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - hackrva
+    labels:
+      - "traefik.http.routers.badge-sim.rule=Host(`badge2025.hackrva.org`)"
+      - "traefik.http.routers.badge-sim.entrypoints=web"
+      - "traefik.http.services.badge-sim.loadbalancer.server.port=8080"
+      - "com.centurylinklabs.watchtower.enable=true"
+
