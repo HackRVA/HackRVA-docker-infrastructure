@@ -17,7 +17,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
 
   badge-sim-2025:
-    image: registry.hackrva.org/hackrva/badge2025-user-docs
+    image: hackrva/badge2025-user-docs
     ports:
       - 9989:8080
     volumes:
