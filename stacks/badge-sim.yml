@@ -25,8 +25,8 @@ services:
     networks:
       - hackrva
     labels:
-      - "traefik.http.routers.badge-sim.rule=Host(`badge2025.hackrva.org`)"
-      - "traefik.http.routers.badge-sim.entrypoints=web"
-      - "traefik.http.services.badge-sim.loadbalancer.server.port=8080"
+      - "traefik.http.routers.badge-sim-2025.rule=Host(`badge2025.hackrva.org`)"
+      - "traefik.http.routers.badge-sim-2025.entrypoints=web"
+      - "traefik.http.services.badge-sim-2025.loadbalancer.server.port=8080"
       - "com.centurylinklabs.watchtower.enable=true"
 
