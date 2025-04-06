@@ -19,7 +19,7 @@ services:
   badge-sim-2025:
     image: hackrva/badge2025-user-docs
     ports:
-      - 9991:8080
+      - 9989:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
