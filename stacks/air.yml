@@ -1,0 +1,25 @@
+networks:
+  hackrva:
+
+services:
+  hackair:
+    image: hackair:latest
+    container_name: hackair
+    restart: unless-stopped
+    ports:
+      - 9944:3000
+    env_file:
+      - ../air.env
+    volumes:
+      - $PERSIST_DIR/hackair:/app/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - HISTORY_FILE=/app/data/history.json
+    networks:
+      - hackrva
+    labels:
+      - "traefik.http.routers.hackair.rule=Host(`air.hackrva.org`)"
+      - "traefik.http.routers.hackair.entrypoints=web"
+      - "traefik.http.services.hackair.loadbalancer.server.port=3000"
+      - "com.centurylinklabs.watchtower.enable=true"
+
