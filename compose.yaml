@@ -1,0 +1,15 @@
+name: hackrva
+
+include:
+  - stacks/traefik.yml
+  - stacks/database.yml
+  - stacks/mqtt.yml
+  - stacks/services.yml
+  - stacks/wiki.yml
+  - stacks/memberserver.yml
+  - stacks/hackmap.yml
+  - stacks/monitoring.yml
+  - stacks/air.yml
+  - stacks/badge-sim.yml
+  - stacks/printers.yml
+  - stacks/prusa-status.yml
