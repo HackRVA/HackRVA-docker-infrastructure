@@ -15,3 +15,12 @@ stop all containers
 make stop
 ```
 
+## Stacks
+
+Each service lives in its own compose file under `stacks/`, pulled together by
+the root `compose.yaml` via `include`. To add a stack, drop the file in
+`stacks/` and add it to the `include` list.
+
+Paths inside a stack file are relative to `stacks/`, so repo-root files are
+referenced as `../db.env`, `../wiki/LocalSettings.php`, etc.
+
