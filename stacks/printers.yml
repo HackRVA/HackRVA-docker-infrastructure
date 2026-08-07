@@ -1,0 +1,17 @@
+networks:
+  hackrva:
+
+services:
+  printers:
+    image: printer-dashboard:latest
+    container_name: printers
+    restart: unless-stopped
+    networks:
+      - hackrva
+    env_file:
+      - ../printer-dashboard.env
+    labels:
+      - "traefik.http.routers.printers.rule=Host(`printers.hackrva.org`)"
+      - "traefik.http.routers.printers.entrypoints=web"
+      - "traefik.http.services.printers.loadbalancer.server.port=8080"
+      - "com.centurylinklabs.watchtower.enable=true"
