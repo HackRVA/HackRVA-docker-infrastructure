@@ -1,0 +1,17 @@
+networks:
+  hackrva:
+
+services:
+  prusa-status:
+    # image: prusa-status
+    image: prusa-status:test
+    restart: unless-stopped
+    env_file:
+      - ../prusa-status.env
+    networks:
+      - hackrva
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prusa-status.rule=Host(`prusa.hackrva.org`)"
+      - "traefik.http.routers.prusa-status.entrypoints=web"
+      - "traefik.http.services.prusa-status.loadbalancer.server.port=8080"
