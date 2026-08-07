@@ -124,6 +124,7 @@ $wgUpgradeKey = getenv('MEDIAWIKI_UPGRADE_KEY') ;
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'cologneblue', 'monobook', 'vector':
 $wgDefaultSkin = "vector";
+$wgVectorResponsive = true;
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation

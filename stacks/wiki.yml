@@ -3,7 +3,7 @@ networks:
 
 services:
   wiki:
-    image: mediawiki:stable
+    image: mediawiki:1.43
     ports:
       - 9992:80
     env_file:
