@@ -6,4 +6,4 @@ db.env
 memberserver.env
 aptly.env
 hackmap.env
-
+*.env
